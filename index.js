@@ -5,17 +5,27 @@ const fs = require('fs');
 
 let homepage = './.html';
 let page404;
-fs.readFile('./404.html', (err, data) => {
+fs.readFile('./pages/404.html', (err, data) => {
   page404 = data;
 });
 
 const server = http.createServer((req, res) => {
   let q = url.parse(req.url, true);
-  let filename = "." + q.pathname + '.html';
-  filename = filename === homepage ? './index.html' : filename
+  let filename = "." + q.pathname;
+  let requested_dir;
+
+  if (filename.substr(-4) === '.css') { 
+    requested_dir = "./styles/"
+  } else {
+    requested_dir = "./pages/"
+    filename += '.html'
+  }
+  filename = filename === homepage ? 'index.html' : filename;
+  
+  console.log(`directory: ${requested_dir}`);
   console.log(`filename: ${filename}`);
 
-  fs.readFile("./pages/" + filename, (err, data) => {
+  fs.readFile(requested_dir + filename, (err, data) => {
     if (err) {
       res.writeHead(404, {'Content-Type': 'text/html'});
       res.end(page404);
@@ -24,7 +34,7 @@ const server = http.createServer((req, res) => {
       res.write(data);
       res.end();
     }
-
   })
+
 }).listen(3000);
 
