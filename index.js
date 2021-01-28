@@ -15,7 +15,7 @@ const server = http.createServer((req, res) => {
   filename = filename === homepage ? './index.html' : filename
   console.log(`filename: ${filename}`);
 
-  fs.readFile(filename, (err, data) => {
+  fs.readFile("./pages/" + filename, (err, data) => {
     if (err) {
       res.writeHead(404, {'Content-Type': 'text/html'});
       res.end(page404);
