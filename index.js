@@ -1,38 +1,54 @@
-const http = require('http');
-const port = process.env.PORT;
+const http = require('http')
+const express = require('express')
+const app = express()
+const port = 3000
 const url = require('url');
 const fs = require('fs');
+const htmlfiles = fs.readdirSync("./pages", { withFileTypes: true })
+                      .map(file => file.name);
 
-let homepage = './.html';
+const cssfiles = fs.readdirSync("./styles/", { withFileTypes: true })
+                      .map(file => file.name);
+
+console.log(`htmlfiles: ${htmlfiles}`, `cssfiles: ${cssfiles}`)                      
+
+let homepage = '/';
 let page404;
 fs.readFile('./pages/404.html', (err, data) => {
   page404 = data;
 });
 
 const server = http.createServer((req, res) => {
-  let q = url.parse(req.url, true);
-  let filename = "." + q.pathname;
+  console.log('requested url: --V')
+  let filename = req.url;
   let requested_dir;
-
-  if (filename.substr(-4) === '.css') { 
-    requested_dir = "./styles/"
-  } else {
-    requested_dir = "./pages/"
-    filename += '.html'
-  }
-  filename = filename === homepage ? 'index.html' : filename;
+  filename = filename === homepage ? 'index' : filename.substr(1);
   
-  console.log(`directory: ${requested_dir}`);
-  console.log(`filename: ${filename}`);
-
+  if (htmlfiles.includes(filename + '.html')) {
+    console.log(`\n`, '--loading page--', `\n`)
+    filename += '.html'
+    requested_dir = "./pages/"
+  } else if (cssfiles.includes(filename)) {
+    console.log(`\n`, '--loading style--', `\n`)
+    requested_dir = "./styles/"
+  }
+  
+  console.log(`requesting==> ${requested_dir}${filename}`, ' ---')
   fs.readFile(requested_dir + filename, (err, data) => {
     if (err) {
+      console.log(`--${filename} not found--`)
       res.writeHead(404, {'Content-Type': 'text/html'});
       res.end(page404);
     } else {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-      res.end();
+      if (requested_dir == "./pages/") {
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write(data);
+        res.end();
+      } else if (requested_dir == "./styles/") {
+        res.writeHead(200, {'Content-Type': 'text/css'})
+        res.write(data);
+        res.end();
+      }
     }
   })
 
