@@ -1,16 +1,11 @@
 const http = require('http')
-const express = require('express')
-const app = express()
-const port = 3000
-const url = require('url');
 const fs = require('fs');
+
 const htmlfiles = fs.readdirSync("./pages", { withFileTypes: true })
                       .map(file => file.name);
 
 const cssfiles = fs.readdirSync("./styles/", { withFileTypes: true })
                       .map(file => file.name);
-
-console.log(`htmlfiles: ${htmlfiles}`, `cssfiles: ${cssfiles}`)                      
 
 let homepage = '/';
 let page404;
@@ -52,5 +47,9 @@ const server = http.createServer((req, res) => {
     }
   })
 
-}).listen(3000);
+})
+
+server.listen(3000, () => {
+  console.log('Server started! --- listening on port 3000')
+});
 
