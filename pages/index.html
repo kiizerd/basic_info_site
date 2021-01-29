@@ -2,27 +2,40 @@
 <html>
 
 <head>
-  <title>Page Title</title>
+  <title>Node Server Home</title>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="theme.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"> 
 </head>
 
 <body>
-  <h1>Homepage
-  </h1>
-  <div class="topnav">
-    <a class="active" href="/">Home</a>
-    <a href="about">About</a>
-    <a href="contact-me">Contact Me</a>
+  <header>
+    <div id="heading-div">
+      <h1>Homepage</h1>
+    </div>
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a href="about">About</a>
+      <a href="contact-me">Contact Me</a>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <ul>
+      <li>This website is running on a NodeJS server.</li>
+      <li>The server handles requests through url and sends responses in HTML or CSS</li>
+      <li>Every different url requests a different page and the server routes the request to the correct document.</li>
+      <li>The document then requests any other files it may need, like script files or stylesheets.</li>
+      <li>If no file can be found matching the requested url a 404 error is thrown.</li>
+      <li>Instead of this crashing the server, it routes the bad request to a custom <a href="404"">404 page</a>.</li>
+    </ul>
   </div>
 
-  <div>
-
-  </div>
-  <footer>Big foot</footer>
-  <script>
-
-  </script>
+  <footer>
+    <div>made by alfred</div>
+    <div>check out my <a href="http://www.github.com/kiizerd">github</a></div>
+  </footer>
 </body>
 
 </html>

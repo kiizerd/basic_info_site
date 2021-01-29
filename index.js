@@ -1,4 +1,5 @@
-const http = require('http')
+const nodemailer = require('nodemailer');
+const http = require('http');
 const fs = require('fs');
 
 const htmlfiles = fs.readdirSync("./pages", { withFileTypes: true })
@@ -33,7 +34,8 @@ const server = http.createServer((req, res) => {
     if (err) {
       console.log(`--${filename} not found--`)
       res.writeHead(404, {'Content-Type': 'text/html'});
-      res.end(page404);
+      res.write(page404);
+      res.end();
     } else {
       if (requested_dir == "./pages/") {
         res.writeHead(200, {'Content-Type': 'text/html'});
