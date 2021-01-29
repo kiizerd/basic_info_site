@@ -1,4 +1,3 @@
-const nodemailer = require('nodemailer');
 const http = require('http');
 const fs = require('fs');
 
